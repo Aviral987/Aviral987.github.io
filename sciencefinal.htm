@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>HarvestHub</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(135deg, #dff0ea, #f2f7f4);
+      overflow-x: hidden;
+    }
+    .page {
+      display: none;
+      padding: 40px 20px;
+      animation: fadeIn 0.6s ease;
+    }
+    .active {
+      display: block;
+    }
+
+    /* Home Page */
+    #home h1 {
+      font-size: 4em;
+      color: #2b6c4f;
+      margin-bottom: 10px;
+      animation: slideDown 1s ease-out;
+    }
+    #home p {
+      font-size: 1.5em;
+      color: #444;
+      font-style: italic;
+      margin-bottom: 40px;
+      animation: fadeIn 2s ease;
+    }
+    #home button {
+      background-color: #2b6c4f;
+      color: white;
+      padding: 12px 25px;
+      border-radius: 8px;
+      font-size: 18px;
+      border: none;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      animation: fadeIn 2s ease;
+      margin: 10px;
+    }
+    #home button:hover {
+      background-color: #21503a;
+    }
+
+    /* Advisor Page */
+    .section {
+      background: #ffffff;
+      padding: 20px;
+      margin-top: 20px;
+      border-radius: 10px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+    label, input, button {
+      font-size: 16px;
+      display: block;
+      margin: 10px 0;
+    }
+    input {
+      padding: 8px;
+      width: 300px;
+    }
+    button.advisor-btn {
+      background-color: #2a5d84;
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      cursor: pointer;
+      border-radius: 5px;
+    }
+    button.advisor-btn:hover {
+      background-color: #1d4667;
+    }
+    .result {
+      margin-top: 15px;
+      font-weight: bold;
+    }
+    .nav-link {
+      margin-top: 30px;
+      display: inline-block;
+      background: #ccc;
+      padding: 10px 20px;
+      border-radius: 5px;
+      text-decoration: none;
+      cursor: pointer;
+      color: #000;
+    }
+    .nav-link:hover {
+      background: #bbb;
+    }
+
+    /* About Page */
+    #about img {
+      max-width: 200px;
+      border-radius: 50%;
+      margin-top: 20px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    }
+    #about .about-text {
+      font-size: 1.2em;
+      margin-top: 20px;
+      max-width: 600px;
+      color: #333;
+    }
+
+    /* Animations */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes slideDown {
+      from { transform: translateY(-100px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Home Page -->
+  <div id="home" class="page active">
+    <h1>HarvestHub</h1>
+    <p>From Soil to Software – Learn it all.</p>
+    <button onclick="navigate('advisor')">Go to Crop & Livestock Advisor</button>
+    <button onclick="navigate('about')">About the Creator</button>
+  </div>
+
+  <!-- Advisor Page -->
+  <div id="advisor" class="page">
+    <h1>🌿 Crop and Livestock Advisor</h1>
+
+    <div class="section">
+      <h2>🌾 Crop Nutrient Advisor</h2>
+      <label for="cropInput">Enter Crop Name (e.g., paddy, corn, wheat):</label>
+      <input type="text" id="cropInput" placeholder="Type crop name here...">
+      <button class="advisor-btn" onclick="getCropNutrient()">Get Required Nutrient</button>
+      <div class="result" id="cropResult"></div>
+    </div>
+
+    <div class="section">
+      <h2>🐄 Livestock Husbandry Panel</h2>
+      <label for="animalInput">Enter Animal Name (e.g., cow, goat, camel):</label>
+      <input type="text" id="animalInput" placeholder="Type animal name here...">
+      <button class="advisor-btn" onclick="getAnimalInfo()">Get Animal Info</button>
+      <div class="result" id="animalResult"></div>
+    </div>
+
+    <div class="nav-link" onclick="navigate('home')">⬅ Back to Home</div>
+    <div class="nav-link" onclick="navigate('about')">👨‍💻 About the Creator</div>
+  </div>
+
+  <!-- About Page -->
+  <div id="about" class="page">
+    <h1>👨‍🔬 About the Creator</h1>
+    <div class="about-text">
+      <p><strong>Aviral Agrawal</strong> is a tech enthusiast, cute and friendly boy who loves to study science and eagerly explores its mysteries. He loves playing football and is very professional in it. Aviral has the potential to become a scientist and do good for the future.</p>
+    </div>
+    <div class="nav-link" onclick="navigate('home')">⬅ Back to Home</div>
+    <div class="nav-link" onclick="navigate('advisor')">🌿 Go to Advisor</div>
+  </div>
+
+  <script>
+    function navigate(pageId) {
+      document.querySelectorAll('.page').forEach(page => {
+        page.classList.remove('active');
+      });
+      document.getElementById(pageId).classList.add('active');
+    }
+
+    const cropData = {
+      paddy: "Nitrogen (N)",
+      corn: "Phosphorus (P)",
+      cotton: "Potassium (K)",
+      wheat: "Nitrogen (N)",
+      rice: "Phosphorus (P)",
+      soyabean: "Phosphorus and Potassium",
+      groundnut: "Calcium and Magnesium",
+      gram: "Nitrogen (N)",
+      pea: "Phosphorus (P)",
+      mustard: "Sulfur (S)",
+      linseed: "Nitrogen and Sulfur",
+      barley: "Phosphorus and Potassium",
+      oats: "Nitrogen and Magnesium",
+      tea: "Nitrogen and Potassium",
+      coffee: "Nitrogen and Phosphorus",
+      rubber: "Nitrogen, Magnesium, and Boron",
+      sesame: "Phosphorus and Sulfur"
+    };
+
+    const animalData = {
+      cow: { temp: "10–25°C", food: "Grass, hay, silage", env: "Well-ventilated, dry shelter" },
+      sheep: { temp: "5–20°C", food: "Grass, grains", env: "Cool and dry with open fields" },
+      goat: { temp: "10–30°C", food: "Grass, shrubs", env: "Dry, well-drained shelters" },
+      cattle: { temp: "10–25°C", food: "Hay, silage, grains", env: "Cool and dry barns" },
+      donkey: { temp: "15–30°C", food: "Grasses, grains", env: "Dry and shady areas" },
+      camel: { temp: "25–45°C", food: "Dry shrubs, cacti", env: "Hot, arid desert conditions" },
+      chicken: { temp: "18–25°C", food: "Grains, corn, mealworms", env: "Warm, dry coops" },
+      buffalo: { temp: "15–30°C", food: "Green fodder, straw", env: "Cool, shaded sheds" },
+      horse: { temp: "10–25°C", food: "Hay, grains, pasture grass", env: "Well-ventilated, dry stable" },
+      pig: { temp: "16–22°C", food: "Grains, kitchen waste, vegetables", env: "Clean, dry pigpens with bedding" },
+      rabbit: { temp: "10–20°C", food: "Hay, leafy greens, pellets", env: "Cool, dry cages with good ventilation" },
+      fish: { temp: "20–30°C (varies)", food: "Fish feed, algae", env: "Clean, oxygen-rich water bodies" },
+      duck: { temp: "15–25°C", food: "Grains, aquatic plants, insects", env: "Access to water and dry resting area" },
+      hen: { temp: "18–28°C", food: "Grains, kitchen scraps, insects", env: "Dry, clean coop with nesting boxes" }
+    };
+
+    function getCropNutrient() {
+      const crop = document.getElementById('cropInput').value.trim().toLowerCase();
+      const result = document.getElementById('cropResult');
+      if (cropData[crop]) {
+        result.innerHTML = `✅ The most needed nutrient for <b>${crop}</b> is <b>${cropData[crop]}</b>.`;
+      } else {
+        result.innerHTML = `⚠️ Sorry, nutrient data not found for "<b>${crop}</b>".`;
+      }
+    }
+
+    function getAnimalInfo() {
+      const animal = document.getElementById('animalInput').value.trim().toLowerCase();
+      const result = document.getElementById('animalResult');
+      if (animalData[animal]) {
+        const data = animalData[animal];
+        result.innerHTML = `
+          ✅ Information for <b>${animal}</b>:<br>
+          🌡️ Suitable Temperature: <b>${data.temp}</b><br>
+          🍀 Preferred Food: <b>${data.food}</b><br>
+          🏡 Environment: <b>${data.env}</b>
+        `;
+      } else {
+        result.innerHTML = `⚠️ Sorry, information not found for "<b>${animal}</b>".`;
+      }
+    }
+  </script>
+</body>
+</html>
